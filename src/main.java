@@ -8,6 +8,7 @@ public class main {
 
         Player player = new Player("Dominiczek");
         Enemy enemy = new Enemy("Jakub");
+		enemy.setStats(10, 10, 4, 2, 10, 1);
 
         Scanner input = new Scanner(System.in);
 
