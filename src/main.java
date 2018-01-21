@@ -13,13 +13,22 @@ public class main {
 
         String choice;
 
-        while (player.isAlive && enemy.isAlive) {
+        while (player.isAlive) {
             choice = input.nextLine();
 
-            if (choice.equals("a"))
+            if (choice.equals("a") && enemy.isAlive)
                 player.attackCreature(enemy);
 
-            enemy.attackCreature(player);
+            if (choice.equals("d")) {
+                player.exp += 10000;
+                player.check_lvl();
+            }
+
+            if (choice.equals("h"))
+                player.heal();
+
+            player.printStats();
+//            enemy.attackCreature(player);
         }
     }
 }

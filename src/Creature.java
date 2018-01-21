@@ -3,7 +3,9 @@ public class Creature {
     public int health = 10,
     maxHealth = 10,
     attack = 4,
-    defense = 2;
+    defense = 2,
+    exp = 10,
+    lvl = 1;
 
     public String name = "BLANK";
 
@@ -16,7 +18,7 @@ public class Creature {
         System.out.println(this.name + " attacked " + target.name);
         System.out.println(target.name + " HP:" + target.health + "/" + target.maxHealth);
         System.out.println();
-        
+
         target.checkHealth();
     }
 
@@ -25,6 +27,10 @@ public class Creature {
             health = maxHealth;
         if (health <= 0)
             isAlive = false;
+    }
+
+    public void heal() {
+        this.health = maxHealth;
     }
 
 }
