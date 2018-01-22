@@ -1,11 +1,6 @@
 public class Creature {
 
-    public int health = 10,
-    maxHealth = 10,
-    attack = 4,
-    defense = 2,
-    exp = 10,
-    lvl = 1;
+	public int health, maxHealth, attack, defense, exp, lvl;
 
     public String name = "BLANK";
 
