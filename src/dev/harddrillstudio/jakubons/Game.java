@@ -2,14 +2,55 @@ package dev.harddrillstudio.jakubons;
 
 import dev.harddrillstudio.jakubons.display.Display;
 
+import java.awt.*;
+import java.awt.image.BufferStrategy;
+
 public class Game {
 
     private Display display;
 
     private final int width = 800, height = 480;
 
+    // Graphics stuff
+    private BufferStrategy bs;
+    private Graphics2D g2;
+
+
     public Game() {
         init();
+
+        /* Game Loop */
+        int fps = 60, ticks = 0;
+        double timePerTick = 1000000000 / fps;
+        double delta = 0;
+        long now, timer = 0;
+        long lastTime = System.nanoTime();
+
+        // Loop itself
+        while(true){
+            now = System.nanoTime();
+            delta += (now - lastTime) / timePerTick;
+            timer += now - lastTime;
+            lastTime = now;
+
+            if(delta >= 1){
+
+                tick();
+                render();
+
+                Toolkit.getDefaultToolkit().sync(); // For Linux
+                ticks++;
+                delta--;
+            }
+
+            if(timer >= 1000000000){
+                System.out.println("Ticks and Frames: " + ticks);
+                ticks = 0;
+                timer = 0;
+            }
+        }
+
+
     }
 
     private void init() {
@@ -17,4 +58,31 @@ public class Game {
         display = new Display(width, height);
     }
 
+    private void tick() {
+
+    }
+
+    private void render() {
+        bs = display.getCanvas().getBufferStrategy();
+        if(bs == null){
+            display.getCanvas().createBufferStrategy(3);
+            return;
+        }
+        g2 = (Graphics2D) bs.getDrawGraphics();
+
+        // Clear Screen
+        g2.clearRect(0, 0, width, height);
+
+        // Draw Here, my gay!
+
+        g2.setColor(Color.GRAY);
+        g2.fillRect(0,0, width, height);
+        g2.setColor(Color.WHITE);
+        g2.drawString("I AM SERIOUSLY A HUMAN GAY", 100, 100);
+
+
+        // End Drawing!
+        bs.show();
+        g2.dispose();
+    }
 }
