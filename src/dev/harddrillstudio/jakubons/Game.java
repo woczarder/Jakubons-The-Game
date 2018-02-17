@@ -1,6 +1,8 @@
 package dev.harddrillstudio.jakubons;
 
 import dev.harddrillstudio.jakubons.display.Display;
+import dev.harddrillstudio.jakubons.states.GameState;
+import dev.harddrillstudio.jakubons.states.State;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -15,6 +17,12 @@ public class Game {
     private BufferStrategy bs;
     private Graphics2D g2;
 
+    //States
+    public State gameState;
+    //public State menuState;
+
+    // Handler
+    private Handler handler;
 
     public Game() {
         init();
@@ -56,15 +64,27 @@ public class Game {
     private void init() {
         /* Create display */
         display = new Display(width, height);
+
+        /* Set handler */
+        handler = new Handler(this);
+
+        /* States */
+        gameState = new GameState(handler);
+        State.setState(gameState);
     }
+
 
     private void tick() {
 
+        if (State.getState() != null)
+            State.getState().tick();
+
     }
+
 
     private void render() {
         bs = display.getCanvas().getBufferStrategy();
-        if(bs == null){
+        if (bs == null) {
             display.getCanvas().createBufferStrategy(3);
             return;
         }
@@ -78,11 +98,22 @@ public class Game {
         g2.setColor(Color.GRAY);
         g2.fillRect(0,0, width, height);
         g2.setColor(Color.WHITE);
-        g2.drawString("I AM SERIOUSLY A HUMAN GAY", 100, 100);
 
+        if (State.getState() != null)
+            State.getState().render(g2);
 
         // End Drawing!
         bs.show();
         g2.dispose();
+    }
+
+
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }
