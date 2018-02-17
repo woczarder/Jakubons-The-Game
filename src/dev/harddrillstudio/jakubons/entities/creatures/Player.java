@@ -20,6 +20,6 @@ public class Player extends Entity {
 
     @Override
     public void render(Graphics2D g) {
-
+        g.fillOval(x, y, 10, 10);
     }
 }
