@@ -1,6 +1,7 @@
 package dev.harddrillstudio.jakubons.states;
 
 import dev.harddrillstudio.jakubons.Handler;
+import dev.harddrillstudio.jakubons.entities.EntityManager;
 import dev.harddrillstudio.jakubons.gfx.ImageLoader;
 
 import java.awt.*;
@@ -10,20 +11,27 @@ public class GameState extends State {
 
     private BufferedImage upArrow;
 
+    // entities
+    EntityManager entityManager;
+
 
     public GameState(Handler handler) {
         super(handler);
+
+        entityManager = new EntityManager(handler);
 
         upArrow = ImageLoader.loadImage("res/textures/upArrow.png");
     }
 
     @Override
     public void tick() {
-
+        entityManager.tick();
     }
 
     @Override
     public void render(Graphics2D g) {
+        entityManager.render(g);
+
         g.drawString("COGS OF TIME HAVE MOVED", 100, 100);
         g.drawString("GameState", 0, 20);
 
